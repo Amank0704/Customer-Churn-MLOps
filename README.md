@@ -737,7 +737,7 @@ This reuses the same MLflow training pipeline as initial training — retraining
 ## Testing
 
 ```bash
-pytest tests/ -v
+python -m pytest tests/ -v
 ```
 
 Covers:
