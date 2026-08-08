@@ -1,0 +1,72 @@
+schema: '2.0'
+stages:
+  validate:
+    cmd: python -m src.data.validate_data
+    deps:
+    - path: data/raw/telco_churn.csv
+      hash: md5
+      md5: 0f9de68e012bd3aed5fa7cdc9fc421af
+      size: 977501
+    - path: src/data/load_data.py
+      hash: md5
+      md5: 73d3c6aa8f3d4e153724176329d452cd
+      size: 529
+    - path: src/data/validate_data.py
+      hash: md5
+      md5: ea072ab9227a42fac10e5176109efba1
+      size: 1768
+  preprocess:
+    cmd: python -m src.preprocessing.write_split_marker
+    deps:
+    - path: data/raw/telco_churn.csv
+      hash: md5
+      md5: 0f9de68e012bd3aed5fa7cdc9fc421af
+      size: 977501
+    - path: src/preprocessing/preprocess.py
+      hash: md5
+      md5: 0d8582596d3abfd675aac97e7da727e9
+      size: 3071
+    outs:
+    - path: data/processed/train_test_split_marker.txt
+      hash: md5
+      md5: 30a9eb0fe38073e28aa3eaf682fcea42
+      size: 58
+  train:
+    cmd: python -m src.training.train_with_mlflow
+    deps:
+    - path: data/raw/telco_churn.csv
+      hash: md5
+      md5: 0f9de68e012bd3aed5fa7cdc9fc421af
+      size: 977501
+    - path: src/preprocessing/preprocess.py
+      hash: md5
+      md5: 0d8582596d3abfd675aac97e7da727e9
+      size: 3071
+    - path: src/training/evaluate.py
+      hash: md5
+      md5: a39c97bd88fa661cd30fdd7ae06816e9
+      size: 647
+    - path: src/training/train.py
+      hash: md5
+      md5: 8f206990c4b7c2bdb1d1e3b875b3b0cd
+      size: 3276
+    - path: src/training/train_with_mlflow.py
+      hash: md5
+      md5: ec1b9b73a7c18c96d97c8ab7fbef6fed
+      size: 2662
+    outs:
+    - path: models/best_model.pkl
+      hash: md5
+      md5: fc5d1876bbfd3a9a8e1bdddb531ce893
+      size: 142171
+  evaluate:
+    cmd: python -m src.training.evaluate
+    deps:
+    - path: models/best_model.pkl
+      hash: md5
+      md5: fc5d1876bbfd3a9a8e1bdddb531ce893
+      size: 142171
+    - path: src/training/evaluate.py
+      hash: md5
+      md5: a39c97bd88fa661cd30fdd7ae06816e9
+      size: 647

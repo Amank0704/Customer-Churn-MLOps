@@ -1,0 +1,33 @@
+stages:
+  validate:
+    cmd: python -m src.data.validate_data
+    deps:
+      - src/data/validate_data.py
+      - src/data/load_data.py
+      - data/raw/telco_churn.csv
+
+  preprocess:
+    cmd: python -m src.preprocessing.write_split_marker
+    deps:
+      - src/preprocessing/preprocess.py
+      - data/raw/telco_churn.csv
+    outs:
+      - data/processed/train_test_split_marker.txt:
+          cache: false
+
+  train:
+    cmd: python -m src.training.train_with_mlflow
+    deps:
+      - src/training/train_with_mlflow.py
+      - src/training/train.py
+      - src/training/evaluate.py
+      - src/preprocessing/preprocess.py
+      - data/raw/telco_churn.csv
+    outs:
+      - models/best_model.pkl
+
+  evaluate:
+    cmd: python -m src.training.evaluate
+    deps:
+      - src/training/evaluate.py
+      - models/best_model.pkl
