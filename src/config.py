@@ -162,8 +162,7 @@ if not DATABASE_URL:
     if os.getenv("RAILWAY_ENVIRONMENT_NAME"):
         raise RuntimeError(
             "DATABASE_URL is not configured in Railway. "
-            "Add DATABASE_URL=${{Postgres.DATABASE_URL}} "
-            "to the FastAPI service variables."
+            
         )
 
     # Local development
