@@ -13,7 +13,7 @@ if not API_URL:
         "Please configure the deployed FastAPI backend URL."
     )
 
-API_URL = API_URL.rstrip("/")
+API_URL = API_URL.strip().rstrip("/")
 
 
 def call_predict(payload: dict) -> dict:
