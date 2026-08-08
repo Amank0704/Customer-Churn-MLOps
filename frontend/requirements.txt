@@ -1,0 +1,10 @@
+streamlit==1.37.1
+requests==2.32.3
+pandas==2.2.2
+numpy==1.26.4
+mlflow==2.15.1
+sqlalchemy==2.0.32
+python-dotenv==1.0.1
+fastapi==0.112.0
+
+
