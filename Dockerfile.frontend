@@ -27,6 +27,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY frontend/ ./frontend/
 COPY monitoring/ ./monitoring/
 COPY src/ ./src/
+COPY models/ ./models/
 
 EXPOSE 8501
 
