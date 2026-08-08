@@ -5,6 +5,6 @@ __pycache__/
 data/raw/*.csv
 mlruns/
 mlartifacts/
-models/*.pkl
+# models/*.pkl
 .pytest_cache/
 .DS_Store
