@@ -5,7 +5,7 @@ on:
     branches: ["main"]
 
 jobs:
-  deploy:
+  build-and-validate:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,21 +24,26 @@ jobs:
           pip install httpx
 
       - name: Run tests
-        run: pytest tests/ -v
+        env:
+          PYTHONPATH: .
+        run: python -m pytest tests/ -v
 
       - name: Build images
         run: |
           docker build -f Dockerfile.api -t churn-api:latest .
           docker build -f Dockerfile.frontend -t churn-frontend:latest .
 
-      - name: Deploy to EC2 via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            cd /home/${{ secrets.EC2_USER }}/customer-churn-mlops
-            git pull origin main
-            docker compose down
-            docker compose up --build -d
+      # AWS deployment step intentionally omitted for now.
+      # When EC2/RDS/S3 are set up (Phase 16), re-add:
+      #
+      # - name: Deploy to EC2 via SSH
+      #   uses: appleboy/ssh-action@v1.0.3
+      #   with:
+      #     host: ${{ secrets.EC2_HOST }}
+      #     username: ${{ secrets.EC2_USER }}
+      #     key: ${{ secrets.EC2_SSH_KEY }}
+      #     script: |
+      #       cd /home/${{ secrets.EC2_USER }}/customer-churn-mlops
+      #       git pull origin main
+      #       docker compose down
+      #       docker compose up --build -d
