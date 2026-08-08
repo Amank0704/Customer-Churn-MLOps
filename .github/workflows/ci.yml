@@ -26,7 +26,9 @@ jobs:
           pip install httpx
 
       - name: Run tests
-        run: pytest tests/ -v
+        env:
+          PYTHONPATH: .
+        run: python -m pytest tests/ -v
 
   docker-build:
     runs-on: ubuntu-latest
